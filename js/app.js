@@ -27,6 +27,7 @@ var timeoutId;
  * 
 */
 
+// Remove active class
 function RemoveSectionActiveClass()
 {
 	let section = document.querySelector('.your-active-class');
@@ -47,17 +48,21 @@ function BuildSections()
 	const fragment = document.createDocumentFragment();
 	for(let i = 1; i <= sectionsNumber; i++)
 	{
+		// Create Sections
 		let section = document.createElement('section');
 		section.setAttribute('id',`section${i}`);
 		section.setAttribute('data-nav',`Section ${i}`);
 		if(i == 1)	section.classList.add('your-active-class');
 		
+		// Create containing div
 		let div = document.createElement('div');
 		div.classList.add('landing__container');
 		
+		//Create h2 and its anchor
 		let header = document.createElement('h2');
 		let anchor = document.createElement('a');
 		anchor.innerText = `Section ${i}`;
+		anchor.style.color = 'white';
 		anchor.style.textDecoration = 'none';
 		anchor.setAttribute('href','#');
 		anchor.addEventListener('click',SectionCollapse);
@@ -65,6 +70,7 @@ function BuildSections()
 		
 		div.appendChild(header);
 		
+		//Create sibling div
 		let innerDiv = document.createElement('div');
 		
 		let paragraph_1 = document.createElement('p');
@@ -115,6 +121,8 @@ function PopulateNavBar()
 		innerChild.textContent = value;
 		innerChild.setAttribute('href',`#${value.split(' ').join('').toLowerCase()}`);
 		innerChild.classList.add('menu__link');
+		
+		// Make first child active
 		if(value == "Section 1")
 			innerChild.classList.add('menu__active__member');
 		
@@ -133,6 +141,7 @@ function BuildDocument()
 	BuildSections();
 	AddScrollTopButton();
 	PopulateNavBar();
+	//setTimeout before scrolling
 	timeoutId = setTimeout(NavBarDisappear,2*1000);
 }
 
@@ -143,8 +152,10 @@ function NavBarClick(event)
 	let tagValue = event.target.getAttribute('href');
 	if(tagValue == null) return;
 	
+	// Remove active class for the active section
 	RemoveSectionActiveClass();
 	
+	// Find the required section and add active class to it
 	section = document.querySelector(tagValue);
 	section.classList.add('your-active-class');
 	
@@ -155,10 +166,12 @@ function NavBarClick(event)
 
 function SectionScroll(event)
 {	
+	// Clear timeout if there's one and set another
 	if(timeoutId)
 		clearTimeout(timeoutId);
 	timeoutId = setTimeout(NavBarDisappear,2*1000);
 	
+	// Find the section on the window now
 	for(let section of sections)
 	{
 		let navBar = document.querySelector('.navbar__menu');
@@ -174,7 +187,8 @@ function SectionScroll(event)
 			const header = section.getAttribute('data-nav');
 			
 			const members = navBar.getElementsByTagName('li');
-
+			
+			// Link actice section with member of the navBar
 			for(let i=0;i<members.length;i++)
 			{
 				if(header == members[i].textContent)
@@ -212,4 +226,6 @@ function SectionCollapse(event)
 	else
 		element.style.display = 'block';
 }
+
+
 document.addEventListener('DOMContentLoaded', BuildDocument);
