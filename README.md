@@ -7,19 +7,23 @@ Multi-section landing page with dynamic navigation bar using javascript ES2015(E
 Clone the files to your computer and press inxex.html file, no need to download any libraries or dependencies.
 
 # Architecture
+
 css
-- styles.css    
+- styles.css
+
 js
 - app.js
+
 index.html
+
 README.md
  
 # References
 
-https://developer.mozilla.org/en-US/
-https://www.w3schools.com/howto/howto_js_collapsible.asp
-https://www.w3schools.com/howto/howto_js_scroll_to_top.asp
-https://vanillajstoolkit.com/helpers/isinviewport/
+* https://developer.mozilla.org/en-US/
+* https://www.w3schools.com/howto/howto_js_collapsible.asp
+* https://www.w3schools.com/howto/howto_js_scroll_to_top.asp
+* https://vanillajstoolkit.com/helpers/isinviewport/
 
 # Features
 
