@@ -20,6 +20,7 @@
 
 const sectionsNumber = 4;
 var sections;
+var timeoutId;
 /**
  * End Global Variables
  * Start Helper Functions
@@ -55,7 +56,8 @@ function BuildSections()
 		div.classList.add('landing__container');
 		
 		let header = document.createElement('h2');
-		header.textContent = `Section ${i}`;
+		header.innerText = `Section ${i}`;
+		
 		div.appendChild(header);
 		
 		let paragraph_1 = document.createElement('p');
@@ -73,9 +75,24 @@ function BuildSections()
 	}
 	document.querySelector('main').appendChild(fragment);
 	document.addEventListener('scroll',SectionScroll);
+	
+	
 }
 
-// build the nav
+// Build The Scroll Top Button
+function AddScrollTopButton()
+{
+	let btn = document.createElement('button');
+	btn.setAttribute('id','myBtn');
+	btn.innerText = "Top";
+	btn.addEventListener('click',function(){
+		document.documentElement.scrollTop = 0;
+	});
+	
+	document.body.appendChild(btn);
+}
+
+// Build the nav
 function PopulateNavBar()
 {
 	sections = document.getElementsByTagName('section');
@@ -104,7 +121,9 @@ function PopulateNavBar()
 function BuildDocument()
 {
 	BuildSections();
+	AddScrollTopButton();
 	PopulateNavBar();
+	timeoutId = setTimeout(NavBarDisappear,2*1000);
 }
 
 function NavBarClick(event)
@@ -126,8 +145,15 @@ function NavBarClick(event)
 
 function SectionScroll(event)
 {	
+	if(timeoutId)
+		clearTimeout(timeoutId);
+	timeoutId = setTimeout(NavBarDisappear,2*1000);
+	
 	for(let section of sections)
 	{
+		let navBar = document.querySelector('.navbar__menu');
+		if(navBar.classList.contains('menu__disappear'))
+			navBar.classList.remove('menu__disappear');
 		
 		let sectionBoundaries = section.getBoundingClientRect();
 		if(sectionBoundaries.top > 0 || sectionBoundaries.bottom > window.innerHeight/2 )
@@ -137,20 +163,31 @@ function SectionScroll(event)
 			
 			const header = section.getAttribute('data-nav');
 			
-			const members = document.querySelector('#navbar__list').getElementsByTagName('li');
+			const members = navBar.getElementsByTagName('li');
 
 			for(let i=0;i<members.length;i++)
 			{
 				if(header == members[i].textContent)
 				{
-					members[i].classList.add('menu__active__member');
+					members[i].querySelector('a').classList.add('menu__active__member');
 					break;
 				}
 			}
 			break;
 		}
 	}
+	
+	if(document.documentElement.scrollTop > 30)
+		document.getElementById('myBtn').style.display = 'block';
+	else
+		document.getElementById('myBtn').style.display = 'none';
 }
 
+function NavBarDisappear()
+{
+	let navBar = document.querySelector('.navbar__menu');
+	if(!navBar.classList.contains('menu__disappear'))
+		navBar.classList.add('menu__disappear');
+}
 
 document.addEventListener('DOMContentLoaded', BuildDocument);
