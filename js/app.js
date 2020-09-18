@@ -56,17 +56,27 @@ function BuildSections()
 		div.classList.add('landing__container');
 		
 		let header = document.createElement('h2');
-		header.innerText = `Section ${i}`;
+		let anchor = document.createElement('a');
+		anchor.innerText = `Section ${i}`;
+		anchor.style.textDecoration = 'none';
+		anchor.setAttribute('href','#');
+		anchor.addEventListener('click',SectionCollapse);
+		header.appendChild(anchor);
 		
 		div.appendChild(header);
 		
+		let innerDiv = document.createElement('div');
+		
 		let paragraph_1 = document.createElement('p');
 		paragraph_1.textContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis, aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod.";
-		div.appendChild(paragraph_1);
+		innerDiv.appendChild(paragraph_1);
 		
 		let paragraph_2 = document.createElement('p');
 		paragraph_2.textContent = "Aliquam a convallis justo. Vivamus venenatis, erat eget pulvinar gravida, ipsum lacus aliquet velit, vel luctus diam ipsum a diam. Cras eu tincidunt arcu, vitae rhoncus purus. Vestibulum fermentum consectetur porttitor. Suspendisse imperdiet porttitor tortor, eget elementum tortor mollis non.";
-		div.appendChild(paragraph_2);
+		innerDiv.appendChild(paragraph_2);
+		innerDiv.style.display = 'block';
+		
+		div.appendChild(innerDiv);
 		
 		section.appendChild(div);
 		section.addEventListener('scroll',SectionScroll);
@@ -190,4 +200,16 @@ function NavBarDisappear()
 		navBar.classList.add('menu__disappear');
 }
 
+function SectionCollapse(event)
+{
+	event.preventDefault();
+	let element = event.target.parentElement.nextSibling;
+	
+	if(element.style.display == 'block')
+	{
+		element.style.display = 'none';
+	}
+	else
+		element.style.display = 'block';
+}
 document.addEventListener('DOMContentLoaded', BuildDocument);
